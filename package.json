@@ -1,0 +1,45 @@
+{
+  "name": "@elg/coerce-llm-output",
+  "version": "0.1.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "license": "MIT",
+  "repository": "git@github.com:taneliang/coerce-llm-output.git",
+  "author": "E-Liang Tan <eliang@eliangtan.com>",
+  "scripts": {
+    "clean": "rm -rf dist",
+    "build": "tsc --project tsconfig.dist.json",
+    "typecheck": "tsc --noEmit",
+    "test": "jest --coverage",
+    "lint": "yarn lint:code && yarn lint:misc",
+    "lint:fix": "yarn lint:code:fix && yarn lint:misc:fix",
+    "lint:code": "eslint src ./*.mjs",
+    "lint:code:fix": "yarn lint:code --fix",
+    "lint:misc": "prettier --check './*.{js,json,md}'",
+    "lint:misc:fix": "yarn lint:misc --write",
+    "prepare": "yarn clean && yarn build"
+  },
+  "dependencies": {
+    "partial-json": "^0.1.7"
+  },
+  "peerDependencies": {
+    "zod": "^3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.24.7",
+    "@babel/preset-env": "^7.24.7",
+    "@babel/preset-typescript": "^7.24.7",
+    "@eslint/js": "^9.6.0",
+    "@types/eslint__js": "^8.42.3",
+    "@types/jest": "^29.5.12",
+    "babel-jest": "^29.7.0",
+    "eslint": "^9.6.0",
+    "eslint-config-prettier": "^9.1.0",
+    "jest": "^30.0.0-alpha.5",
+    "prettier": "^3.3.2",
+    "ts-dedent": "^2.2.0",
+    "typescript": "^5.5.3",
+    "typescript-eslint": "^7.16.0",
+    "zod": "^3.23.8"
+  }
+}

@@ -1,0 +1,42 @@
+version: 2.1
+
+orbs:
+  codecov: codecov/codecov@4.0.1
+
+jobs:
+  build:
+    working_directory: ~/coerce-llm-output
+    docker:
+      - image: cimg/node:lts
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v2-node-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - v2-node-{{ arch }}-{{ .Branch }}-
+            - v2-node-{{ arch }}-
+      - run:
+          name: Install Dependencies
+          command: yarn --frozen-lockfile --cache-folder ~/.cache/yarn --non-interactive
+      - save_cache:
+          key: v2-node-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+            - node_modules
+      - run:
+          name: Typecheck Code
+          command: yarn typecheck
+      - run:
+          name: Run Linters
+          command: yarn lint
+      - run:
+          name: Test code
+          environment:
+            NODE_ENV: test
+          command: |
+            set -e
+            yarn test
+      - codecov/upload:
+          file: ./coverage/coverage-final.json
+      - store_test_results:
+          path: test-reports
